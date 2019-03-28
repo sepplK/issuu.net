@@ -3,7 +3,7 @@
 A simple API client for issuu. You need a premium Account for API access.
 
 ### NuGet
-    Install-Package issuu.Client -Version 1.0.31
+    Install-Package issuu.Client
 
 ### Usage
     var client = new IssuuClient(options =>
