@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace issuu_dotnet
 {
@@ -18,6 +19,33 @@ namespace issuu_dotnet
 
         [JsonProperty("_content")]
         public IssuuResult<T>[] Results { get; set; }
+
+
     }
 
+    public class IssuuException : Exception
+    {
+
+        public IssuuException(IssuuError error)
+        {
+            Error = error;
+        }
+
+        public IssuuError Error { get; }
+
+        public override string Message => Error.ToString();
+
+    }
+
+    public class IssuuError
+    {
+        public string Code { get; set; }
+        public string Message { get; set; }
+        public string Field { get; set; }
+
+        public override string ToString()
+        {
+            return $"Error {Code}, {Message}, Field {Field}";
+        }
+    }
 }

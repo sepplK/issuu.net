@@ -27,6 +27,10 @@ namespace issuu_dotnet
 
         public IssuuOptions Options { get; set; } = new IssuuOptions();
 
+        public Task<IssuuResultSet<IssuuDocument>> GetDocumentsAsync(Action<IssuuRequestOptions> configure = null)
+        {
+            return GetDataAsync<IssuuDocument>(configure);
+        }
 
         public Task<IssuuResultSet<T>> GetDataAsync<T>(Action<IssuuRequestOptions> configure = null) where T : IIssuuData
         {
@@ -69,6 +73,14 @@ namespace issuu_dotnet
             var webClient = new WebClient();
             var resultString = await webClient.DownloadStringTaskAsync(url);
             JObject resultJson = JsonConvert.DeserializeObject(resultString) as JObject;
+
+            var resultContent = resultJson["rsp"]["_content"];
+
+            if (resultContent["error"] != null)
+            {
+                var issuuError = resultContent["error"].ToObject<IssuuError>();
+                throw new IssuuException(issuuError);
+            }
 
             var result = resultJson["rsp"]["_content"]["result"].ToObject<IssuuResultSet<T>>();
 
