@@ -1,4 +1,4 @@
-using issuu_dotnet;
+using issuu.Client;
 using System;
 using System.Linq;
 using Xunit;
