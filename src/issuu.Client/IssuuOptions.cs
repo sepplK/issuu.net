@@ -14,7 +14,7 @@ namespace issuu.Client
         /// <summary>
         /// The API credentials
         /// </summary>
-        public IssuuCredentials Credentials { get; set; }
+        public IssuuCredentials Credentials { get; set; } = new IssuuCredentials();
 
         /// <summary>
         /// The API url (http://api.issuu.com/1_0)
