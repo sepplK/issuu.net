@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{89FBB3
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
-		Client.nuspec = Client.nuspec
 		IssuuCredentials.json = IssuuCredentials.json
 	EndProjectSection
 EndProject
