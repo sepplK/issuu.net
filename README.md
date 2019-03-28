@@ -7,11 +7,15 @@ A simple API client for issuu. You need a premium Account for API access.
 
 ### Usage
 
-    ...
+
+**Dependency Injection**
+
     public override void ConfigureServices(IServiceCollection services)
     {
         services.AddIssuuClient();
-    ...
+    }
+
+**Load Documents**
 
     var client = new IssuuClient(options =>
     {
