@@ -2,7 +2,6 @@
 
 A simple API client for issuu. You need a premium Account for API access.
 
-## List Documents
 
     var client = new IssuuClient(options =>
     {
