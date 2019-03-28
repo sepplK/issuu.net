@@ -15,11 +15,9 @@ namespace isuuu.Tests
         public static IServiceProvider BuildServiceProvider()
         {
             var services = new ServiceCollection();
-            services.AddIssuuClient();
 
-            services.Configure<IssuuOptions>(options =>
+            services.AddIssuuClient(options =>
             {
-
                 // Test credentials
                 var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
 
