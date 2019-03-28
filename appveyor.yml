@@ -6,7 +6,18 @@ before_build:
   - dotnet restore
 
 build_script:
-  - dotnet build .\issuu.sln
+  - dotnet build .\issuu.sln -c %CONFIGURATION%
 
 # test_script:
 #  - dotnet test .\src\issuu.Tests\
+
+after_build:
+- dotnet pack "src\issuu.Client" -c %CONFIGURATION% --no-build --version-suffix %LABEL% -o artifacts
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: lg1T//GTRbe7Hy4hMCAAl9zwV18y/LFls614YYwNKW1VoZt8vaZDBTw6XIawITwC
+  skip_symbols: false
+  symbol_server:           # remove to push symbols to SymbolSource.org
+  artifact: /.*\.nupkg/
