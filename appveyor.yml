@@ -20,4 +20,4 @@ deploy:
     secure: lg1T//GTRbe7Hy4hMCAAl9zwV18y/LFls614YYwNKW1VoZt8vaZDBTw6XIawITwC
   skip_symbols: false
   symbol_server:           # remove to push symbols to SymbolSource.org
-  artifact: /.*\.nupkg/
+  artifact: **\*.nupkg
