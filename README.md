@@ -12,7 +12,11 @@ A simple API client for issuu. You need a premium Account for API access.
 
     public override void ConfigureServices(IServiceCollection services)
     {
-        services.AddIssuuClient();
+        services.AddIssuuClient(options =>
+        {
+            options.Credentials.ApiKey = "your-api-key";
+            options.Credentials.ApiSecret = "your-api-secret";
+        });
     }
 
 **Load Documents**
@@ -24,8 +28,6 @@ A simple API client for issuu. You need a premium Account for API access.
         public MyClient(IssuuClient client)
         {
             _client = client;
-            _client.Options.Credentials.ApiKey = "your-api-key";
-            _client.Options.Credentials.ApiSecret = "your-api-secret";
         }
 
         public async Task ExecuteAsync()
