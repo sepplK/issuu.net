@@ -17,14 +17,30 @@ A simple API client for issuu. You need a premium Account for API access.
 
 **Load Documents**
 
-    var client = new IssuuClient(options =>
+    public class MyClient
     {
-        options.Credentials.ApiKey = "your-api-key";
-        options.Credentials.ApiSecret = "your-api-secret";
-    });
+        private readonly IssuuClient _client;
 
-    var documents = await client.GetDocumentsAsync(o =>
-    {
-        o.PageSize = 20;
-        o.StartIndex = 0;
-    });
+        public MyClient(IssuuClient client)
+        {
+            _client = client;
+            _client.Options.Credentials.ApiKey = "your-api-key";
+            _client.Options.Credentials.ApiSecret = "your-api-secret";
+        }
+
+        public async Task ExecuteAsync()
+        {
+
+            var response = await _client.GetDocumentsAsync(o =>
+            {
+                o.PageSize = 20;
+                o.StartIndex = 0;
+            });
+
+            foreach (var result in response.Results)
+            {
+                Console.WriteLine(result.Document.Title);
+            }
+
+        }
+    }
