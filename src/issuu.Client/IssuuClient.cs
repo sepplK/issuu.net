@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace issuu_dotnet
+namespace issuu.Client
 {
 
     public class IssuuClient

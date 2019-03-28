@@ -9,8 +9,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using issuu;
 
-namespace issuu_dotnet
+namespace issuu.Client
 {
 
     public class IssuuHasher

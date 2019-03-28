@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace issuu_dotnet
+namespace issuu.Client
 {
 
     public class IssuuException : Exception

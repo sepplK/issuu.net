@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 
-namespace issuu_dotnet
+namespace issuu.Client
 {
 
     public class IssuuOptions

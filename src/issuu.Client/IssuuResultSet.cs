@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace issuu_dotnet
+namespace issuu.Client
 {
     public class IssuuResultSet<T>  where T : IIssuuData
     {

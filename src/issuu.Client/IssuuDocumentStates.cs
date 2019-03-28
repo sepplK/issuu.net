@@ -1,4 +1,4 @@
-﻿namespace issuu_dotnet
+﻿namespace issuu.Client
 {
     public enum IssuuDocumentStates
     {
