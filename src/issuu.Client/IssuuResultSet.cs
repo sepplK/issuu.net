@@ -18,7 +18,5 @@ namespace issuu.Client
 
         [JsonProperty("_content")]
         public IssuuResult<T>[] Results { get; set; }
-
-
     }
 }
