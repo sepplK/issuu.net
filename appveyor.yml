@@ -13,4 +13,7 @@ build_script:
 
 after_build:
   - dotnet pack "src\issuu.Client" -c %CONFIGURATION% -o %APPVEYOR_BUILD_VERSION%.nupkg
-  - ps: Get-ChildItem src\issuu.Client\bin\Release\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+
+artifacts:
+  - path: **\*.nupkg
+    name: NuGetPackage
