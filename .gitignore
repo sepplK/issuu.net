@@ -5,3 +5,4 @@ temp
 .vs
 
 IssuuCredentials.json
+/msbuild.log

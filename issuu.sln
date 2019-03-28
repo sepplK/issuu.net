@@ -10,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{89FBB3E4-586C-4C61-A999-4D61453C0E61}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		build.cmd = build.cmd
+		Client.nuspec = Client.nuspec
 		IssuuCredentials.json = IssuuCredentials.json
 	EndProjectSection
 EndProject
