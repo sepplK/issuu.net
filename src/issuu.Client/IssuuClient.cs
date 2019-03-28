@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace issuu.Client
 {
@@ -18,14 +19,15 @@ namespace issuu.Client
 
         public IssuuClient()
         {
+
         }
 
-        public IssuuClient(Action<IssuuOptions> configure) : this()
+        public IssuuClient(IOptions<IssuuOptions> options)
         {
-            configure.Invoke(Options);
+            Options = options.Value;
         }
 
-        public IssuuOptions Options { get; set; } = new IssuuOptions();
+        public IssuuOptions Options { get; set; }
 
         public Task<IssuuResultSet<IssuuDocument>> GetDocumentsAsync(Action<IssuuRequestOptions> configure = null)
         {

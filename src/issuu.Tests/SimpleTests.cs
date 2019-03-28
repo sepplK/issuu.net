@@ -1,5 +1,9 @@
 using issuu.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -8,10 +12,41 @@ namespace isuuu.Tests
     public class SimpleTests
     {
 
+        public static IServiceProvider BuildServiceProvider()
+        {
+            var services = new ServiceCollection();
+            services.AddIssuuClient();
+
+            services.Configure<IssuuOptions>(options =>
+            {
+
+                // Test credentials
+                var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+
+                while (directory != null)
+                {
+                    var configFile = new FileInfo($@"{directory}\IssuuCredentials.json");
+                    if (configFile.Exists)
+                    {
+                        options.Credentials = JsonConvert.DeserializeObject<IssuuCredentials>(File.ReadAllText(configFile.FullName));
+                        break;
+                    }
+
+                    directory = directory.Parent;
+                }
+
+
+            });
+
+            return services.BuildServiceProvider();
+        }
+
         [Fact]
         public async void PagingTest()
         {
-            var client = new IssuuClient();
+            var serviceProvider = BuildServiceProvider();
+
+            var client = serviceProvider.GetService<IssuuClient>();
 
             // Take first 5
             var documents5 = await client.GetDocumentsAsync(o =>
@@ -38,14 +73,13 @@ namespace isuuu.Tests
         [Fact]
         public async void ExceptionTest()
         {
-            var client1 = new IssuuClient(options =>
-            {
-                options.Credentials.ApiKey = "invalidapikey";
-            });
+            var serviceProvider = BuildServiceProvider();
+
+            var client = serviceProvider.GetService<IssuuClient>();
 
             try
             {
-                var results = await client1.GetDocumentsAsync();
+                var results = await client.GetDocumentsAsync();
             }
             catch (Exception ex) 
             {
