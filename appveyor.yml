@@ -15,5 +15,5 @@ after_build:
   - dotnet pack "src\issuu.Client" -c %CONFIGURATION% -o %APPVEYOR_BUILD_VERSION%.nupkg
 
 artifacts:
-  - path: **\*.nupkg
+  - path: '**\*.nupkg'
     name: NuGetPackage
