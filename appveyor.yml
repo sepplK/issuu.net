@@ -8,5 +8,5 @@ before_build:
 build_script:
   - dotnet build .\issuu.sln
 
-test_script:
-  - dotnet test .\src\issuu.Tests\
+# test_script:
+#  - dotnet test .\src\issuu.Tests\
