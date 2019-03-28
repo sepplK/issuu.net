@@ -17,7 +17,7 @@ A simple API client for issuu. You need a premium Account for API access.
 
 **Load Documents**
 
-    public class MyClient
+    public class MyTest
     {
         private readonly IssuuClient _client;
 
