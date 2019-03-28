@@ -14,6 +14,6 @@
     <tags>issuu</tags>
   </metadata>
   <files>
-	<file src="src\issuu.Client\bin\Release\netstandard2.0\issuu.Client.dll" target="lib\netstandard2.0\issuu.Client.dll" />
+	  <file src="src\issuu.Client\bin\Release\netstandard2.0\issuu.Client.dll" target="lib\netstandard2.0\issuu.Client.dll" />
   </files>
 </package>

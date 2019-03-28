@@ -14,10 +14,6 @@ if "%nuget%" == "" (
 	set nuget=nuget
 )
 
-%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild issuu.sln /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=diag /nr:false
-
-mkdir Build
-mkdir Build\lib
-mkdir Build\lib\netstandard2.0
+dotnet build issuu.sln -c Release
 
 %nuget% pack "Client.nuspec" -NoPackageAnalysis -verbosity detailed -Version %version% -p Configuration="%config%"

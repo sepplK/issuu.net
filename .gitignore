@@ -3,6 +3,7 @@ obj
 temp
 *.user
 .vs
+*.nupkg
 
 IssuuCredentials.json
 /msbuild.log
