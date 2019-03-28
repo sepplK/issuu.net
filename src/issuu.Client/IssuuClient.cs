@@ -78,7 +78,7 @@ namespace issuu_dotnet
 
             if (resultContent["error"] != null)
             {
-                var issuuError = resultContent["error"].ToObject<IssuuError>();
+                var issuuError = resultContent["error"].ToObject<IssuuExceptionDetails>();
                 throw new IssuuException(issuuError);
             }
 
