@@ -5,4 +5,12 @@
     <RootNamespace>issuu_dotnet</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
 </Project>
