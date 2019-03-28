@@ -12,7 +12,7 @@ build_script:
 #  - dotnet test .\src\issuu.Tests\
 
 after_build:
-  - dotnet pack "src\issuu.Client" -c %CONFIGURATION%
+  - dotnet pack "src\issuu.Client" -c %CONFIGURATION% /p:Version=%APPVEYOR_BUILD_NUMBER%
 
 artifacts:
   - path: '**\*.nupkg'
