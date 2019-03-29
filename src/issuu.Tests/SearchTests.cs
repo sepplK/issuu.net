@@ -18,8 +18,9 @@ namespace isuuu.Tests
 
             var client = serviceProvider.GetService<IssuuClient>();
 
-            var first5Results = await client.SearchAsync("sommer", options =>
+            var first5Results = await client.GetDocumentsAsync(options =>
             {
+                options.SearchQuery = "sommer";
                 options.PageSize = 5;
             });
 
@@ -34,15 +35,17 @@ namespace isuuu.Tests
 
             var client = serviceProvider.GetService<IssuuClient>();
 
-            var first5Results = await client.SearchAsync("sommer", options =>
+            var first5Results = await client.GetDocumentsAsync(options =>
             {
+                options.SearchQuery = "sommer";
                 options.PageSize = 5;
             });
 
             Assert.Equal(5, first5Results.Results.Count());
 
-            var last3Results = await client.SearchAsync("sommer", options =>
+            var last3Results = await client.GetDocumentsAsync(options =>
             {
+                options.SearchQuery = "sommer";
                 options.PageSize = 3;
                 options.StartIndex = first5Results.TotalCount - 3;
             });

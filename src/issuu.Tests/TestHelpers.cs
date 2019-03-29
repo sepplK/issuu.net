@@ -9,7 +9,7 @@ namespace isuuu.Tests
     public class TestHelpers
     {
 
-        public static IServiceProvider BuildServiceProvider()
+        public static IServiceProvider BuildServiceProvider(Action<IServiceCollection> configure = null)
         {
             var services = new ServiceCollection();
 
@@ -45,6 +45,8 @@ namespace isuuu.Tests
 
 
             });
+
+            configure?.Invoke(services);
 
             return services.BuildServiceProvider();
         }

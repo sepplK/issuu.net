@@ -27,6 +27,16 @@
         /// </summary>
         public string SearchQuery { get; set; }
 
+        /// <summary>
+        /// Use IMemoryCache (default false)
+        /// </summary>
+        public bool Cache { get; set; }
+
+        /// <summary>
+        /// The cache expiration in ms (default 60000)
+        /// </summary>
+        public int CacheTime { get; set; } = 60000;
+
     }
 
     public enum IssuuSortOrders
