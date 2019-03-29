@@ -114,7 +114,7 @@ namespace issuu.Client
             var result = new IssuuResultSet<IssuuDocument>();
 
             result.Results = searchResultSet.Docs
-                .Select(d => new IssuuResult<IssuuDocument>(d))
+                .Select(d => new IssuuResult<IssuuDocument>(new IssuuDocument(d)))
                 .ToArray();
 
             result.PageSize = options.PageSize;
