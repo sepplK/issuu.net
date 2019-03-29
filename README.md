@@ -1,16 +1,18 @@
 # issuu.net
 
-A simple c# API client for your issuu.com Premium Account.
+A simple c# api client for your issuu.com premium account
 
-### NuGet
+
+#### Usage
+
+1. Get your issuu premium account on www.issuu.com
+2. Add NuGet package "issuu.Client"
+
+#### NuGet
     Install-Package issuu.Client
+    
 
-### Usage
-
-1. Get your Premium Account on www.issuu.com
-2. Add NuGet Package "issuu.Client"
-
-**Dependency Injection**
+#### Dependency Injection
 
     public override void ConfigureServices(IServiceCollection services)
     {
@@ -21,7 +23,7 @@ A simple c# API client for your issuu.com Premium Account.
         });
     }
 
-**Load Documents**
+#### Load Documents
 
     public class MyTest
     {
