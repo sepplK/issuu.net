@@ -1,6 +1,5 @@
 # issuu.net
 
-A simple c# API client for your issuu.com Premium Account.
 
 ### NuGet
     Install-Package issuu.Client
