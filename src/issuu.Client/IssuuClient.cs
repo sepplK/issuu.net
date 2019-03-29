@@ -39,6 +39,16 @@ namespace issuu.Client
             return GetDataAsync<IssuuDocument>(configure, cancellationToken);
         }
 
+        public async Task<IssuuDocument> GetDocumentByIdAsync(string documentId, CancellationToken cancellationToken = default)
+        {
+            var searchResult = await SearchAsync(documentId, options =>
+            {
+                options.SearchField = "documentId";
+            }, cancellationToken);
+
+            return searchResult.Results.FirstOrDefault()?.Document;
+        }
+
         public Task<IssuuResultSet<IssuuDocument>> GetDocumentsAsync(IssuuRequestOptions options, CancellationToken cancellationToken = default)
         {
             return GetDataAsync<IssuuDocument>(options, cancellationToken);
@@ -100,7 +110,7 @@ namespace issuu.Client
 
             var urlParams = new Dictionary<string, string>();
 
-            urlParams["q"] = query;
+            urlParams[options.SearchField] = query;
 
             if (!string.IsNullOrEmpty(Options.Credentials.ApiUsername))
             {

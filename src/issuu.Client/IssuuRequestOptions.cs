@@ -37,6 +37,10 @@
         /// </summary>
         public int CacheTime { get; set; } = 60000;
 
+        /// <summary>
+        /// The search field (default q)
+        /// </summary>
+        public string SearchField { get; set; } = "q";
     }
 
     public enum IssuuSortOrders

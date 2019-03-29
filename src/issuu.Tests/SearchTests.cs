@@ -29,6 +29,19 @@ namespace isuuu.Tests
         }
 
         [Fact]
+        public async void SingleDocumentTest()
+        {
+            var serviceProvider = TestHelpers.BuildServiceProvider();
+
+            var client = serviceProvider.GetService<IssuuClient>();
+
+            var docId = "110724112850-b5e3bd930e95451a8a8b755352d296c4";
+            var doc = await client.GetDocumentByIdAsync(docId);
+
+            Assert.Equal(docId, doc.DocumentId);
+        }
+
+        [Fact]
         public async void SearchPagingTest()
         {
             var serviceProvider = TestHelpers.BuildServiceProvider();
