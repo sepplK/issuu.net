@@ -1,9 +1,22 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace issuu.Client
 {
+
     public class IssuuDocument : IIssuuData
     {
+        public IssuuDocument()
+        {
+
+        }
+
+        public IssuuDocument(IssuuSearchResultDoc doc)
+        {
+            DocumentId = doc.DocumentId;
+            Name = doc.DocName;
+            Username = doc.Username;
+        }
 
         [JsonProperty("documentId")]
         public string DocumentId { get; set; }
@@ -34,6 +47,9 @@ namespace issuu.Client
 
         [JsonProperty("tags")]
         public string[] Tags { get; set; }
+
+        [JsonProperty("publishDate")]
+        public DateTime PublishDate { get; set; }
 
         [JsonProperty("folders")]
         public string[] Folders { get; set; }

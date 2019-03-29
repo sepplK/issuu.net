@@ -1,48 +1,38 @@
 using issuu.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
-using System.IO;
 using System.Linq;
 using Xunit;
 
 namespace isuuu.Tests
 {
+
     public class SimpleTests
     {
 
-        public static IServiceProvider BuildServiceProvider()
+        [Fact]
+        public async void SimpleTest()
         {
-            var services = new ServiceCollection();
+            var serviceProvider = TestHelpers.BuildServiceProvider();
 
-            services.AddIssuuClient(options =>
+            var client = serviceProvider.GetService<IssuuClient>();
+
+            // Take first 5
+            var documents5 = await client.GetDocumentsAsync(o =>
             {
-                // Test credentials
-                var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
-
-                while (directory != null)
-                {
-                    var configFile = new FileInfo($@"{directory}\IssuuCredentials.json");
-                    if (configFile.Exists)
-                    {
-                        options.Credentials = JsonConvert.DeserializeObject<IssuuCredentials>(File.ReadAllText(configFile.FullName));
-                        break;
-                    }
-
-                    directory = directory.Parent;
-                }
-
-
+                o.PageSize = 5;
+                o.StartIndex = 0;
             });
 
-            return services.BuildServiceProvider();
+            Assert.Equal(5, documents5.Results.Count());
         }
+
 
         [Fact]
         public async void PagingTest()
         {
-            var serviceProvider = BuildServiceProvider();
+            var serviceProvider = TestHelpers.BuildServiceProvider();
 
             var client = serviceProvider.GetService<IssuuClient>();
 
@@ -71,7 +61,7 @@ namespace isuuu.Tests
         [Fact]
         public async void ExceptionTest()
         {
-            var serviceProvider = BuildServiceProvider();
+            var serviceProvider = TestHelpers.BuildServiceProvider();
 
             var client = serviceProvider.GetService<IssuuClient>();
 

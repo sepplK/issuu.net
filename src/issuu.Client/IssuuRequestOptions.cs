@@ -12,6 +12,22 @@
         /// </summary>
         public int StartIndex { get; set; }
 
+        /// <summary>
+        /// The sort field property (default PublishDate)
+        /// </summary>
+        public string SortBy { get; set; } = "publishDate";
+
+        /// <summary>
+        /// The sort order (default desc)
+        /// </summary>
+        public IssuuSortOrders SortOrder { get; set; } = IssuuSortOrders.Desc;
+
+    }
+
+    public enum IssuuSortOrders
+    {
+        Asc = 0,
+        Desc = 1
     }
 
 }
