@@ -8,8 +8,8 @@ before_build:
 build_script:
   - dotnet build .\issuu.sln -c %CONFIGURATION%
 
-# test_script:
-#  - dotnet test .\src\issuu.Tests\
+test_script:
+  - dotnet test .\src\issuu.Tests\
 
 after_build:
   - dotnet pack "src\issuu.Client" -c %CONFIGURATION% /p:Version=%APPVEYOR_BUILD_VERSION%
