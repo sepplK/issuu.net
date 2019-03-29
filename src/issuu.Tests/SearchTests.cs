@@ -50,5 +50,23 @@ namespace isuuu.Tests
             Assert.Equal(3, last3Results.Results.Count());
         }
 
+        [Fact]
+        public async void IntegratedSearchTest()
+        {
+            var serviceProvider = TestHelpers.BuildServiceProvider();
+
+            var client = serviceProvider.GetService<IssuuClient>();
+
+            var first5Results = await client.GetDataAsync<IssuuDocument>(options =>
+            {
+                options.PageSize = 5;
+                options.SearchQuery = "sommer";
+            });
+
+            Assert.Contains("sommer2011", first5Results.Results.First().Document.Name);
+
+            Assert.Equal(5, first5Results.Results.Count());
+        }
+
     }
 }

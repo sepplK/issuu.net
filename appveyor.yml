@@ -17,3 +17,14 @@ after_build:
 artifacts:
   - path: '**\*.nupkg'
     name: NuGetPackage
+
+environment:
+  IssuuApiCredentials:
+    secure: YKsQ0yBp4H0GwZAHsyloOUWcWTA8SKC6akVQA5pqkvNOcFHB1HtYTYcQufs7RIFtVc+R45SzbeN8dFxxV8gSkZgZbEokPvDXajIkxFdTPpO2gUkJbPDPSXEI+iCUXYrE245OiEynhvQgmvdkXC1LPqAbi8gzCeXdO2bsU7SS4Kc=
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: MICpkYpXVWKu1nitCvEtgAxATawJMxSLboz3RUvOj2XAfdF+IkXuGUG6navDI2dH
+  skip_symbols: false
+  artifact: '**\*.nupkg'

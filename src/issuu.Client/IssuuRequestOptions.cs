@@ -22,6 +22,11 @@
         /// </summary>
         public IssuuSortOrders SortOrder { get; set; } = IssuuSortOrders.Desc;
 
+        /// <summary>
+        /// Returns a document search result (only for Document results)
+        /// </summary>
+        public string SearchQuery { get; set; }
+
     }
 
     public enum IssuuSortOrders

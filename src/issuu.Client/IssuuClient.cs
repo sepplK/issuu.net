@@ -127,6 +127,11 @@ namespace issuu.Client
         {
             if (options == null) options = new IssuuRequestOptions();
 
+            if(typeof(T) == typeof(IssuuDocument) && !string.IsNullOrEmpty(options.SearchQuery))
+            {
+                return await SearchAsync(options.SearchQuery, options) as IssuuResultSet<T>;
+            }
+
             var urlParams = new Dictionary<string, string>();
 
             var properties = typeof(T).GetProperties()
