@@ -3,6 +3,7 @@ using System;
 
 namespace issuu.Client
 {
+
     public class IssuuResultSet<T>  where T : IIssuuData
     {
         public IssuuResultSet()

@@ -6,7 +6,7 @@ using System.Text;
 namespace issuu.Client
 {
 
-    public class IssuuSearchResultSet
+    internal class IssuuSearchResultSet
     {
         [JsonProperty("start")]
         public int Start { get; set; }
@@ -21,7 +21,7 @@ namespace issuu.Client
         public IssuuSearchResultDocument[] Docs { get; set; }
     }
 
-    public class IssuuSearchResultDocument
+    internal class IssuuSearchResultDocument
     {
         [JsonProperty("documentId")]
         public string DocumentId { get; set; }

@@ -11,7 +11,7 @@ namespace issuu.Client
 
         }
 
-        public IssuuDocument(IssuuSearchResultDocument doc)
+        internal IssuuDocument(IssuuSearchResultDocument doc)
         {
             DocumentId = doc.DocumentId;
             Name = doc.DocName;
@@ -55,6 +55,14 @@ namespace issuu.Client
 
         [JsonProperty("folders")]
         public string[] Folders { get; set; }
+
+        public string Url
+        {
+            get
+            {
+                return $"https://issuu.com/{Username}/docs/{Name}";
+            }
+        }
 
         public string MediaUrl
         {
