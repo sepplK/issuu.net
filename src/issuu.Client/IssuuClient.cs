@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace issuu.Client
 {
@@ -33,27 +34,27 @@ namespace issuu.Client
         public IssuuOptions Options { get; set; }
         public IServiceProvider ServiceProvider { get; set; }
 
-        public Task<IssuuResultSet<IssuuDocument>> GetDocumentsAsync(Action<IssuuRequestOptions> configure = null)
+        public Task<IssuuResultSet<IssuuDocument>> GetDocumentsAsync(Action<IssuuRequestOptions> configure = null, CancellationToken cancellationToken = default)
         {
-            return GetDataAsync<IssuuDocument>(configure);
+            return GetDataAsync<IssuuDocument>(configure, cancellationToken);
         }
 
-        public Task<IssuuResultSet<IssuuDocument>> GetDocumentsAsync(IssuuRequestOptions options)
+        public Task<IssuuResultSet<IssuuDocument>> GetDocumentsAsync(IssuuRequestOptions options, CancellationToken cancellationToken = default)
         {
-            return GetDataAsync<IssuuDocument>(options);
+            return GetDataAsync<IssuuDocument>(options, cancellationToken);
         }
 
-        public Task<IssuuResultSet<T>> GetDataAsync<T>(Action<IssuuRequestOptions> configure = null) where T : IIssuuData
+        public Task<IssuuResultSet<T>> GetDataAsync<T>(Action<IssuuRequestOptions> configure = null, CancellationToken cancellationToken = default) where T : IIssuuData
         {
             var options = new IssuuRequestOptions();
             configure?.Invoke(options);
-            return GetDataAsync<T>(options);
+            return GetDataAsync<T>(options, cancellationToken);
         }
 
         /// <summary>
         /// Return all documents 
         /// </summary>
-        public async Task<IssuuResultSet<T>> GetAllDataAsync<T>() where T : IIssuuData
+        public async Task<IssuuResultSet<T>> GetAllDataAsync<T>(CancellationToken cancellationToken = default) where T : IIssuuData
         {
             var allDocuments = new List<T>();
 
@@ -75,7 +76,7 @@ namespace issuu.Client
                 {
                     o.PageSize = pageSize;
                     o.StartIndex = page * pageSize;
-                }));
+                }, cancellationToken));
             }
 
             var asyncResults = await Task.WhenAll(tasks);
@@ -85,15 +86,15 @@ namespace issuu.Client
             return result;
         }
 
-        private Task<IssuuResultSet<IssuuDocument>> SearchAsync(string query, Action<IssuuRequestOptions> configure = null)
+        private Task<IssuuResultSet<IssuuDocument>> SearchAsync(string query, Action<IssuuRequestOptions> configure = null, CancellationToken cancellationToken = default)
         {
             var options = new IssuuRequestOptions();
             configure?.Invoke(options);
 
-            return SearchAsync(query, options);
+            return SearchAsync(query, options, cancellationToken);
         }
 
-        private async Task<IssuuResultSet<IssuuDocument>> SearchAsync(string query, IssuuRequestOptions options = null)
+        private async Task<IssuuResultSet<IssuuDocument>> SearchAsync(string query, IssuuRequestOptions options = null, CancellationToken cancellationToken = default)
         {
             if (options == null) options = new IssuuRequestOptions();
 
@@ -123,41 +124,45 @@ namespace issuu.Client
                 }
             }
 
-            var webClient = new WebClient();
-            var resultString = await webClient.DownloadStringTaskAsync(url);
-            JObject resultJson = JsonConvert.DeserializeObject(resultString) as JObject;
-
-            var resultContent = resultJson["response"];
-
-            var searchResultSet = resultContent.ToObject<IssuuSearchResultSet>();
-
-            var result = new IssuuResultSet<IssuuDocument>();
-            result.Client = this;
-            result.Url = url;
-
-            result.Results = searchResultSet.Docs
-                .Select(d => new IssuuResult<IssuuDocument>(new IssuuDocument(d)))
-                .ToArray();
-
-            result.PageSize = options.PageSize;
-            result.TotalCount = searchResultSet.NumFound;
-            result.StartIndex = searchResultSet.Start;
-
-            if (options.Cache && cache != null)
+            using (var client = new HttpClient())
+            using (var response = await client.GetAsync(url, cancellationToken))
             {
-                cache.Set(cacheKey, result, DateTime.Now.AddMilliseconds(options.CacheTime));
-            }
+                var resultString = await response.Content.ReadAsStringAsync();
 
-            return result;
+                JObject resultJson = JsonConvert.DeserializeObject(resultString) as JObject;
+
+                var resultContent = resultJson["response"];
+
+                var searchResultSet = resultContent.ToObject<IssuuSearchResultSet>();
+
+                var result = new IssuuResultSet<IssuuDocument>();
+                result.Client = this;
+                result.Url = url;
+
+                result.Results = searchResultSet.Docs
+                    .Select(d => new IssuuResult<IssuuDocument>(new IssuuDocument(d)))
+                    .ToArray();
+
+                result.PageSize = options.PageSize;
+                result.TotalCount = searchResultSet.NumFound;
+                result.StartIndex = searchResultSet.Start;
+
+                if (options.Cache && cache != null)
+                {
+                    cache.Set(cacheKey, result, DateTime.Now.AddMilliseconds(options.CacheTime));
+                }
+
+                return result;
+            }
         }
 
-        public async Task<IssuuResultSet<T>> GetDataAsync<T>(IssuuRequestOptions options = null) where T : IIssuuData
+        public async Task<IssuuResultSet<T>> GetDataAsync<T>(IssuuRequestOptions options = null, CancellationToken cancellationToken = default) where T : IIssuuData
         {
             if (options == null) options = new IssuuRequestOptions();
 
             if(typeof(T) == typeof(IssuuDocument) && !string.IsNullOrEmpty(options.SearchQuery))
             {
-                return await SearchAsync(options.SearchQuery, options) as IssuuResultSet<T>;
+                return await SearchAsync(options.SearchQuery, options, cancellationToken) as IssuuResultSet<T>;
             }
 
             var urlParams = new Dictionary<string, string>();
@@ -203,28 +208,32 @@ namespace issuu.Client
                 }
             }
 
-            var webClient = new WebClient();
-            var resultString = await webClient.DownloadStringTaskAsync(url);
-            JObject resultJson = JsonConvert.DeserializeObject(resultString) as JObject;
-
-            var resultContent = resultJson["rsp"]["_content"];
-
-            if (resultContent["error"] != null)
+            using (var client = new HttpClient())
+            using (var response = await client.GetAsync(url, cancellationToken))
             {
-                var issuuError = resultContent["error"].ToObject<IssuuExceptionDetails>();
-                throw new IssuuException(issuuError);
+                var resultString = await response.Content.ReadAsStringAsync();
+                JObject resultJson = JsonConvert.DeserializeObject(resultString) as JObject;
+
+                var resultContent = resultJson["rsp"]["_content"];
+
+                if (resultContent["error"] != null)
+                {
+                    var issuuError = resultContent["error"].ToObject<IssuuExceptionDetails>();
+                    throw new IssuuException(issuuError);
+                }
+
+                var result = resultJson["rsp"]["_content"]["result"].ToObject<IssuuResultSet<T>>();
+                result.Client = this;
+                result.Url = url;
+
+                if (options.Cache && cache != null)
+                {
+                    cache.Set(cacheKey, result, DateTime.Now.AddMilliseconds(options.CacheTime));
+                }
+
+                return result;
             }
 
-            var result = resultJson["rsp"]["_content"]["result"].ToObject<IssuuResultSet<T>>();
-            result.Client = this;
-            result.Url = url;
-
-            if (options.Cache && cache != null)
-            {
-                cache.Set(cacheKey, result, DateTime.Now.AddMilliseconds(options.CacheTime));
-            }
-
-            return result;
         }
 
     }
