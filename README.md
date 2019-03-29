@@ -1,15 +1,13 @@
 # issuu.net
 
-
-### NuGet
-    Install-Package issuu.Client
-
-### Usage
-
 1. Get your Premium Account on www.issuu.com
 2. Add NuGet Package "issuu.Client"
 
-**Dependency Injection**
+#### NuGet
+    Install-Package issuu.Client
+    
+
+#### Dependency Injection
 
     public override void ConfigureServices(IServiceCollection services)
     {
@@ -20,7 +18,7 @@
         });
     }
 
-**Load Documents**
+#### Load Documents
 
     public class MyTest
     {
