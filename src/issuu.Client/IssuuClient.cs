@@ -99,6 +99,7 @@ namespace issuu.Client
 
             urlParams["startIndex"] = options.StartIndex.ToString();
             urlParams["pageSize"] = options.PageSize.ToString();
+            urlParams["responseParams"] = "*";
 
             var url = $@"{Options.SearchApiUrl}?{string.Join("&", urlParams.Select(p => p.Key + "=" + p.Value))}";
 
@@ -113,7 +114,7 @@ namespace issuu.Client
             var result = new IssuuResultSet<IssuuDocument>();
 
             result.Results = searchResultSet.Docs
-                .Select(d => new IssuuResult<IssuuDocument>(new IssuuDocument(d)))
+                .Select(d => new IssuuResult<IssuuDocument>(d))
                 .ToArray();
 
             result.PageSize = options.PageSize;

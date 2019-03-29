@@ -6,17 +6,6 @@ namespace issuu.Client
 
     public class IssuuDocument : IIssuuData
     {
-        public IssuuDocument()
-        {
-
-        }
-
-        public IssuuDocument(IssuuSearchResultDoc doc)
-        {
-            DocumentId = doc.DocumentId;
-            Name = doc.DocName;
-            Username = doc.Username;
-        }
 
         [JsonProperty("documentId")]
         public string DocumentId { get; set; }
