@@ -1,7 +1,7 @@
 # issuu.net
 
-1. Get your Premium Account on www.issuu.com
-2. Add NuGet Package "issuu.Client"
+1. Get your issuu premium account on www.issuu.com
+2. Add NuGet package "issuu.Client"
 
 #### NuGet
     Install-Package issuu.Client
