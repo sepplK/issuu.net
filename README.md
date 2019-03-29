@@ -3,6 +3,8 @@
 A simple c# api client for your issuu.com premium account
 
 
+#### Usage
+
 1. Get your issuu premium account on www.issuu.com
 2. Add NuGet package "issuu.Client"
 
