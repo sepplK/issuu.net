@@ -4,7 +4,9 @@
 name: .NET
 
 on:
-  create
+  push:
+    tags:
+      - "1.*"
   
 jobs:
   build:
