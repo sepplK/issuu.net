@@ -13,14 +13,14 @@ namespace issuu.Client
         public IssuuCredentials Credentials { get; set; } = new IssuuCredentials();
 
         /// <summary>
-        /// The API url (http://api.issuu.com/1_0)
+        /// The API url (https://api.issuu.com/1_0)
         /// </summary>
-        public string ApiUrl { get; set; } = "http://api.issuu.com/1_0";
+        public string ApiUrl { get; set; } = "https://api.issuu.com/1_0";
 
         /// <summary>
-        /// The Search API url (http://search.issuu.com/api/2_0/document)
+        /// The Search API url (https://search.issuu.com/api/2_0/document)
         /// </summary>
-        public string SearchApiUrl { get; set; } = "http://search.issuu.com/api/2_0/document";
+        public string SearchApiUrl { get; set; } = "https://search.issuu.com/api/2_0/document";
 
     }
 
