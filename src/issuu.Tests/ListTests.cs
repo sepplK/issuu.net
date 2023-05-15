@@ -8,26 +8,38 @@ using Xunit;
 namespace isuuu.Tests
 {
 
-    public class SimpleTests
+    public class ListTests
     {
 
         [Fact]
-        public async void SimpleTest()
+        public async void ListTest()
         {
             var serviceProvider = TestHelpers.BuildServiceProvider();
 
             var client = serviceProvider.GetService<IssuuClient>();
 
-            // Take first 5
-            var documents5 = await client.GetDocumentsAsync(o =>
+            // Take first 100
+            var docs = await client.GetDocumentsAsync(o =>
             {
-                o.PageSize = 5;
+                o.PageSize = 100;
                 o.StartIndex = 0;
             });
 
-            Assert.Equal(5, documents5.Results.Count());
+            Assert.Equal(100, docs.Results.Count());
         }
 
+        [Fact]
+        public async void SingleDocumentTest()
+        {
+            var serviceProvider = TestHelpers.BuildServiceProvider();
+
+            var client = serviceProvider.GetService<IssuuClient>();
+
+            var docId = "110724112850-b5e3bd930e95451a8a8b755352d296c4";
+            var doc = await client.GetDocumentByIdAsync(docId);
+
+            Assert.Equal(docId, doc.DocumentId);
+        }
 
         [Fact]
         public async void PagingTest()

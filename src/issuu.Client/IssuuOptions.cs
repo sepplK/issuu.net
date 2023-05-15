@@ -18,9 +18,9 @@ namespace issuu.Client
         public string ApiUrl { get; set; } = "https://api.issuu.com/1_0";
 
         /// <summary>
-        /// The Search API url (https://search.issuu.com/api/2_0/document)
+        /// The Search API url (https://api.issuu.com/1_0)
         /// </summary>
-        public string SearchApiUrl { get; set; } = "https://search.issuu.com/api/2_0/document";
+        public string SearchApiUrl { get; set; } = "https://api.issuu.com/1_0";
 
     }
 

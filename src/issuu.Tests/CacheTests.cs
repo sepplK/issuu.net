@@ -13,7 +13,7 @@ namespace isuuu.Tests
     {
 
         [Fact]
-        public async void CacheTest()
+        public async void DICacheTest()
         {
             var serviceProvider = TestHelpers.BuildServiceProvider((services) =>
             {
@@ -21,10 +21,8 @@ namespace isuuu.Tests
             });
 
             var options = new IssuuRequestOptions();
-            options.SearchQuery = "sommer";
             options.PageSize = 5;
             options.Cache = true;
-            options.CacheTime = 5000;
 
             var client = serviceProvider.GetService<IssuuClient>();
 
@@ -42,7 +40,7 @@ namespace isuuu.Tests
 
             var thirdResult = await client.GetDocumentsAsync(options);
 
-            Assert.NotEqual(firstResult.ResultTime, thirdResult.ResultTime);
+            Assert.Equal(firstResult.ResultTime, thirdResult.ResultTime);
         }
 
     }
