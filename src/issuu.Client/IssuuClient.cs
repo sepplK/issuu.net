@@ -51,6 +51,7 @@ namespace issuu.Client
                 {
                     options.PageSize = pageSize;
                     options.StartIndex = page * pageSize;
+                    options.Cache = true;
                 }, cancellationToken);
 
                 loadedCount += results.Results.Count();

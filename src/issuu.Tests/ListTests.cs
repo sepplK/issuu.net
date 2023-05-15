@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace isuuu.Tests
@@ -18,25 +19,35 @@ namespace isuuu.Tests
 
             var client = serviceProvider.GetService<IssuuClient>();
 
-            // Take first 100
+            // Take first 50
             var docs = await client.GetDocumentsAsync(o =>
             {
-                o.PageSize = 100;
+                o.PageSize = 50;
                 o.StartIndex = 0;
             });
 
-            Assert.Equal(100, docs.Results.Count());
+            Assert.Equal(50, docs.Results.Count());
         }
 
         [Fact]
         public async void SingleDocumentTest()
         {
-            var serviceProvider = TestHelpers.BuildServiceProvider();
+            var serviceProvider = TestHelpers.BuildServiceProvider((services) =>
+            {
+                services.AddMemoryCache();
+            });
+
+            var options = new IssuuRequestOptions();
+            options.Cache = true;
 
             var client = serviceProvider.GetService<IssuuClient>();
 
-            var docId = "110724112850-b5e3bd930e95451a8a8b755352d296c4";
+            var docId = "170512115916-a5a1d224ccda04e11c95aeb7e5366d4c";
             var doc = await client.GetDocumentByIdAsync(docId);
+
+            await Task.Delay(2000);
+
+            var cachedDoc = await client.GetDocumentByIdAsync(docId);
 
             Assert.Equal(docId, doc.DocumentId);
         }

@@ -3,9 +3,9 @@
     public class IssuuRequestOptions
     {
         /// <summary>
-        /// The page size (default 10)
+        /// The page size (default 100)
         /// </summary>
-        public int PageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 100;
 
         /// <summary>
         /// The zero based start index
@@ -30,7 +30,7 @@
         /// <summary>
         /// Use IMemoryCache (default false)
         /// </summary>
-        public bool Cache { get; set; }
+        public bool Cache { get; set; } = true;
 
         /// <summary>
         /// The cache expiration in ms (default 60000)
