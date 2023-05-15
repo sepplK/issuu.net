@@ -2,8 +2,6 @@
 
 A simple c# api client for your issuu.com premium account
 
-<img src="https://ci.appveyor.com/api/projects/status/xnhkw6dwit645nnd/branch/master?svg=true">
-
 
 #### Usage
 
